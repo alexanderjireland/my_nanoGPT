@@ -49,8 +49,8 @@ The ancestors of llamas are thought to have originated from the Great Plains of 
 # tests
 
 # test encode/decode identity for a few different strs
-@pytest.mark.parameterize("tokenizer_factory", [BasicTokenizer, RegexTokenizer, GPT4Tokenizer])
-@pytest.mark.parameterize("text", test_strings)
+@pytest.mark.parametrize("tokenizer_factory", [BasicTokenizer, RegexTokenizer, GPT4Tokenizer])
+@pytest.mark.parametrize("text", test_strings)
 def test_encode_decode_identity(tokenizer_factory, text):
     text = unpack(text)
     tokenizer = tokenizer_factory()
@@ -59,7 +59,7 @@ def test_encode_decode_identity(tokenizer_factory, text):
     assert text == decoded
 
 # test that our tokenizer matches the official GPT-4 tokenizer
-@pytest.mark.parameterize("text", test_strings)
+@pytest.mark.parametrize("text", test_strings)
 def test_gpt4_tiktoken_equality(text):
     text = unpack(text)
     tokenizer = GPT4Tokenizer()
@@ -77,7 +77,7 @@ def test_gpt4_tiktoken_equality_special_tokens():
     assert tiktoken_ids == gpt4_tokenizer_ids
 
 # reference test to add more tests in the future
-@pytest.mark.parameterize("tokenizer_factory", [BasicTokenizer, RegexTokenizer])
+@pytest.mark.parametrize("tokenizer_factory", [BasicTokenizer, RegexTokenizer])
 def test_wikipedia_example(tokenizer_factory):
     """
     Quick unit test, following along the Wikipedia example:
@@ -106,7 +106,7 @@ def test_wikipedia_example(tokenizer_factory):
     assert ids ==  [258, 100, 258, 97, 99]
     assert tokenizer.decode(tokenizer.encode(text)) == text
 
-@pytest.mark.parameterize("special_tokens", [{}, special_tokens])
+@pytest.mark.parametrize("special_tokens", [{}, special_tokens])
 def test_save_load(special_tokens):
     # take a bit more complex piece of text and train the tokenizer, chosen at random
     text = llama_text
